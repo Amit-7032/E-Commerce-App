@@ -4,12 +4,10 @@ import { GlobalContext } from "@/context";
 import { adminNavOption, navOptions } from "@/utils";
 import { Fragment, useContext } from "react";
 import CommonModal from "../CommonModal";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 const isAdminView = false;
-const isAuthUser = true;
-const user = {
-  role: "admin",
-};
 
 function NavItems({ isModalView = false }) {
   return (
@@ -19,7 +17,11 @@ function NavItems({ isModalView = false }) {
       }`}
       id="nav-items"
     >
-      <ul className={`flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-white ${isModalView ? 'border-none' : 'border border-grey-100'}`} >
+      <ul
+        className={`flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-white ${
+          isModalView ? "border-none" : "border border-grey-100"
+        }`}
+      >
         {isAdminView
           ? adminNavOption.map((item) => (
               <li
@@ -43,7 +45,18 @@ function NavItems({ isModalView = false }) {
 }
 
 export default function Navbar() {
-  const {showNavModal, setShowNavModal} = useContext(GlobalContext);
+  const { showNavModal, setShowNavModal } = useContext(GlobalContext);
+  const { user, setUser, isAuthUser, setIsAuthUser } =
+    useContext(GlobalContext);
+  const router = useRouter();
+
+  function handleLogout() {
+    setIsAuthUser(false);
+    setUser(null);
+    Cookies.remove("token");
+    localStorage.clear();
+    router.push("/");
+  }
 
   return (
     <>
@@ -57,21 +70,59 @@ export default function Navbar() {
           <div className="flex md:order-2 gap-2">
             {!isAdminView && isAuthUser ? (
               <Fragment>
-                <button className={"mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"}>Account</button>
-                <button className={"mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"}>Cart</button>
+                <button
+                  className={
+                    "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                  }
+                >
+                  Account
+                </button>
+                <button
+                  className={
+                    "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                  }
+                >
+                  Cart
+                </button>
               </Fragment>
             ) : null}
             {user?.role === "admin" ? (
               isAdminView ? (
-                <button className={"mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"}>Client View</button>
+                <button
+                  className={
+                    "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                  }
+                >
+                  Client View
+                </button>
               ) : (
-                <button className={"mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"}>Admin View</button>
+                <button
+                  className={
+                    "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                  }
+                >
+                  Admin View
+                </button>
               )
             ) : null}
             {isAuthUser ? (
-              <button className={"mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"}>Logout</button>
+              <button
+                className={
+                  "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                }
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
             ) : (
-              <button className={"mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"}>Login</button>
+              <button
+                className={
+                  "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                }
+                onClick={() => router.push("/login")}
+              >
+                Login
+              </button>
             )}
             <button
               data-collapse-toggle="navbar-sticky"
