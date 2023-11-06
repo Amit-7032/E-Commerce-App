@@ -9,16 +9,21 @@ export default function GlobalState({ children }) {
   const [showNavModal, setShowNavModal] = useState(false);
   const [isAuthUser, setIsAuthUser] = useState(null);
   const [user, setUser] = useState(null);
+  const [pageLevelLoader, setPageLevelLoader] = useState(false);
+  const [componentLevelLoader, setComponentLevelLoader] = useState({
+    loading: false,
+    id: "",
+  });
 
-  useEffect(()=>{
-    if (Cookies.get('token') !== undefined) {
+  useEffect(() => {
+    if (Cookies.get("token") !== undefined) {
       setIsAuthUser(true);
-      const userData = JSON.parse(localStorage.getItem('user')) || {};
+      const userData = JSON.parse(localStorage.getItem("user")) || {};
       setUser(userData);
     } else {
       setIsAuthUser(false);
     }
-  },[Cookies])
+  }, [Cookies]);
 
   return (
     <GlobalContext.Provider
@@ -29,6 +34,10 @@ export default function GlobalState({ children }) {
         setIsAuthUser,
         user,
         setUser,
+        componentLevelLoader,
+        setComponentLevelLoader,
+        pageLevelLoader,
+        setPageLevelLoader,
       }}
     >
       {children}

@@ -2,11 +2,14 @@
 
 import InputComponent from "@/components/FormElements/InputComponent";
 import SelectComponent from "@/components/FormElements/SelectComponent";
+import ComponentLevelLoader from "@/components/Loader/componentlevel";
+import Notification from "@/components/Notification";
+import { GlobalContext } from "@/context";
 import { registerNewUser } from "@/services/register";
 import { registrationFormControls } from "@/utils";
-import { useState } from "react";
-
-const isRegistered = false;
+import { useRouter } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const initialFormData = {
   name: "",
@@ -17,6 +20,13 @@ const initialFormData = {
 
 export default function Register() {
   const [formData, setFormData] = useState(initialFormData);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const { pageLevelLoader, setPageLevelLoader, isAuthUser } =
+    useContext(GlobalContext);
+
+  const router = useRouter();
+
+  console.log("formData", formData);
 
   function isFormValid() {
     return formData &&
@@ -30,10 +40,32 @@ export default function Register() {
       : false;
   }
 
+  console.log("isFormValid", isFormValid());
+
   async function handleRegisterOnSubmit() {
-    const data = await registerNewUser(formData)
-    console.log(data);
+    setPageLevelLoader(true);
+    const data = await registerNewUser(formData);
+
+    if (data.success) {
+      toast.success(data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setIsRegistered(true);
+      setPageLevelLoader(false);
+      setFormData(initialFormData);
+    } else {
+      toast.error(data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      setPageLevelLoader(false);
+      setFormData(initialFormData);
+    }
+    console.log("registration res data", data);
   }
+
+  useEffect(() => {
+    if (isAuthUser) router.push("/");
+  }, [isAuthUser]);
 
   return (
     <div className="bg-white relative">
@@ -47,7 +79,10 @@ export default function Register() {
                   : "Sign up for an account"}
               </p>
               {isRegistered ? (
-                <button className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide">
+                <button
+                  className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white transition-all duration-200 ease-in-out focus:shadow font-medium uppercase tracking-wide"
+                  onClick={() => router.push("/login")}
+                >
                   Login
                 </button>
               ) : (
@@ -85,7 +120,15 @@ export default function Register() {
                     disabled={!isFormValid()}
                     onClick={handleRegisterOnSubmit}
                   >
-                    Register
+                    {pageLevelLoader ? (
+                      <ComponentLevelLoader
+                        text={"Registering"}
+                        color={"#ffffff"}
+                        loading={pageLevelLoader}
+                      />
+                    ) : (
+                      "Register"
+                    )}
                   </button>
                 </div>
               )}
@@ -93,6 +136,7 @@ export default function Register() {
           </div>
         </div>
       </div>
+      <Notification />
     </div>
   );
 }
