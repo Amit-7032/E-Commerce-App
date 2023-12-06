@@ -49,8 +49,8 @@ export async function POST(req) {
         email: checkUser?.email,
         role: checkUser?.role,
       },
-      process.env.JWT_KEY || 'default_secret_key',
-      { expiresIn: "1d" } 
+      process.env.JWT_KEY || "default_secret_key",
+      { expiresIn: "1d" }
     );
 
     const finalData = {

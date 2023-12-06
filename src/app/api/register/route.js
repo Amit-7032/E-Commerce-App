@@ -30,35 +30,36 @@ export async function POST(req) {
   try {
     //check if the user is exist or not
 
-    const isUserAlreadyExists = await User.findOne({email});
+    const isUserAlreadyExists = await User.findOne({ email });
 
     if (isUserAlreadyExists) {
-        return NextResponse.json({
-            success : false,
-            message : "User is already exists. Please try with different email."
-        })
+      return NextResponse.json({
+        success: false,
+        message: "User is already exists. Please try with different email.",
+      });
     } else {
-        const hashPassword = await hash(password, 12);
+      const hashPassword = await hash(password, 12);
 
-        const newlyCreatedUser = await User.create({
-            name, email, password : hashPassword, role
-        })
+      const newlyCreatedUser = await User.create({
+        name,
+        email,
+        password: hashPassword,
+        role,
+      });
 
-        if (newlyCreatedUser) {
-            return NextResponse.json({
-              success: true,
-              message: "Account created successfully.",
-            });
-          }
+      if (newlyCreatedUser) {
+        return NextResponse.json({
+          success: true,
+          message: "Account created successfully.",
+        });
+      }
     }
-    
   } catch (error) {
-    console.log('Error while new user registration. Please try again');
+    console.log("Error while new user registration. Please try again");
 
     return NextResponse.json({
-        success : false,
-        message : "Something went wrong, Please try again later!"
-    })
+      success: false,
+      message: "Something went wrong, Please try again later!",
+    });
   }
-
 }
