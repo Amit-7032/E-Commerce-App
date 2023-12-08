@@ -138,7 +138,7 @@ export const adminAddProductFormControls = [
         id: "kids",
         label: "Kids",
       },
-    ]
+    ],
   },
   {
     id: "deliveryInfo",
@@ -162,7 +162,7 @@ export const adminAddProductFormControls = [
         id: "no",
         label: "No",
       },
-    ]
+    ],
   },
   {
     id: "priceDrop",
@@ -175,15 +175,27 @@ export const adminAddProductFormControls = [
 
 export const AvailableSizes = [
   {
-    id: 's',
-    label: 'S',
+    id: "s",
+    label: "S",
   },
   {
-    id: 'm',
-    label: 'M',
+    id: "m",
+    label: "M",
   },
   {
-    id: 'l',
-    label: 'L',
+    id: "l",
+    label: "L",
   },
-]
+];
+
+export const firebaseConfig = {
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID,
+};
+
+export const firebaseStorageURL = process.env.FIREBASE_STORAGE_URL;
