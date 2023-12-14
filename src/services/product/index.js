@@ -40,7 +40,7 @@ export const updateAProduct = async (formData) => {
         "content-type": "application/json",
         Authorization: `Bearer ${Cookies.get("token")}`,
       },
-      // cache: "no-store",
+      cache: "no-store",
       body: JSON.stringify(formData),
     });
 
@@ -60,6 +60,38 @@ export const deleteAProduct = async (id) => {
       },
     });
 
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const productByCategory = async (id) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3000/api/admin/product-by-category?id=${id}`,
+      {
+        method: "GET",
+        cache: "no-cache",
+      }
+    );
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const productById = async (id) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3000/api/admin/product-by-id?id=${id}`,
+      {
+        method: "GET",
+        cache: "no-cache",
+      }
+    );
     const data = await res.json();
     return data;
   } catch (error) {
