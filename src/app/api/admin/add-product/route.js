@@ -1,4 +1,5 @@
 import connectToDB from "@/database";
+import AuthUser from "@/middleware/AuthUser";
 import Product from "@/models/product";
 import Joi from "joi";
 import { NextResponse } from "next/server";
@@ -21,9 +22,9 @@ export async function POST(req) {
   try {
     await connectToDB();
 
-    const user = "admin";
+    const isAuthUser = await AuthUser(req);
 
-    if (user === "admin") {
+    if (isAuthUser?.role === "admin") {
       const extractData = await req.json();
       const {
         name,
@@ -36,6 +37,7 @@ export async function POST(req) {
         onSale,
         priceDrop,
       } = extractData;
+
       const { error } = AddNewProductSchema.validate({
         name,
         description,
@@ -71,7 +73,7 @@ export async function POST(req) {
     } else {
       return NextResponse.json({
         success: false,
-        message: "You are not authorized!",
+        message: "You are not authorized",
       });
     }
   } catch (error) {
