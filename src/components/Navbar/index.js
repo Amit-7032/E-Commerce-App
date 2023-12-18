@@ -97,6 +97,7 @@ export default function Navbar() {
                   className={
                     "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
                   }
+                  onClick={() => router.push("/account")}
                 >
                   Account
                 </button>
@@ -156,7 +157,7 @@ export default function Navbar() {
               className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus"
               aria-controls="navbar-sticky"
               aria-expanded="false"
-              onClick={() => setShowNavModal(true)}
+              onClick={() => setShowNavModal(!showNavModal)}
             >
               <span className="sr-only">Open main menu</span>
               <svg
