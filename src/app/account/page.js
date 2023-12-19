@@ -117,8 +117,7 @@ export default function Account() {
       <div className="mx-auto bg-gray-100 px-4 sm:px-6 lg:px-8">
         <div className="bg-white shadow">
           <div className="p-6 sm:p-12">
-            <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
-            </div>
+            <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row"></div>
             <div className="flex flex-col flex-1">
               <h4 className="text-lg font-semibold text-center md:text-left">
                 {user?.name}

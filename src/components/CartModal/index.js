@@ -135,6 +135,10 @@ export default function CartModal() {
             disabled={cartItems && cartItems.length === 0}
             type="button"
             className="mt-1.5 w-full inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide disabled:opacity-50"
+            onClick={() => {
+              router.push("/checkout");
+              setShowCartModal(false);
+            }}
           >
             Checkout
           </button>
