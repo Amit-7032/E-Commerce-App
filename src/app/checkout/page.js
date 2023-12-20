@@ -147,6 +147,14 @@ export default function Checkout() {
     console.log(error);
   }
 
+  useEffect(() => {
+    if (orderSuccess) {
+      setTimeout(() => {
+        router.push("/orders");
+      }, 2000);
+    }
+  }, [orderSuccess]);
+
   if (orderSuccess) {
     return (
       <section className="h-screen bg-gray-200">
@@ -155,11 +163,9 @@ export default function Checkout() {
             <div className="bg-white shadow">
               <div className="px-4 py-6 sm:px-8 sm:py-10 flex flex-col gap-5">
                 <h1 className="font-bold text-lg">
-                  Your payment is successful
+                  Your payment is successful and you will be redirected to
+                  orders page in 2 seconds!
                 </h1>
-                <button className="mt-5 mr-5 w-full inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide">
-                  View your orders
-                </button>
               </div>
             </div>
           </div>
