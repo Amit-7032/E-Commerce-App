@@ -43,7 +43,6 @@ export default function Login() {
     setComponentLevelLoader({ loading: true, id: "" });
 
     const res = await loginUser(formData);
-    console.log("login res", res);
 
     if (res.success) {
       toast.success(res.message, {
@@ -63,8 +62,6 @@ export default function Login() {
       setComponentLevelLoader({ loading: false, id: "" });
     }
   }
-
-  console.log("isAuthUser, user", isAuthUser, user);
 
   useEffect(() => {
     if (isAuthUser) router.push("/");
