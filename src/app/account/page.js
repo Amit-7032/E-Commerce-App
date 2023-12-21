@@ -11,6 +11,7 @@ import {
   updateAddress,
 } from "@/services/address";
 import { addNewAddressFormControls } from "@/utils";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -27,6 +28,8 @@ export default function Account() {
 
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [currentEditedAddressId, setCurrentEditedAddressId] = useState(null);
+
+  const router = useRouter();
 
   async function extractAllAddresses() {
     const res = await fetchAllAddress(user?._id);
@@ -125,7 +128,10 @@ export default function Account() {
               <p>{user?.email}</p>
               <p>{user?.role}</p>
             </div>
-            <button className="mt-5 inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide">
+            <button
+              className="mt-5 inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+              onClick={() => router.push("/orders")}
+            >
               View Your Orders
             </button>
             <div className="mt-6">

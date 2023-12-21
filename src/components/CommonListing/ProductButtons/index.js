@@ -44,7 +44,7 @@ export default function ProductButton({ item }) {
   async function handleAddToCart(getItem) {
     setComponentLevelLoader({ loading: true, id: getItem._id });
 
-    const res = await addToCart({ productID: getItem._id, userID: user._id });
+    const res = await addToCart({ productID: getItem._id, userID: user?._id });
 
     if (res.success) {
       toast.success(res.message, {
