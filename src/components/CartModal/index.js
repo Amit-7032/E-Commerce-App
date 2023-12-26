@@ -25,8 +25,27 @@ export default function CartModal() {
     const res = await getAllCartItems(user?._id);
 
     if (res.success) {
-      setCartItems(res.data);
-      localStorage.setItem("cartItems", JSON.stringify(res.data));
+      const updatedData =
+        res.data && res.data.length
+          ? res.data.map((item) => ({
+              ...item,
+              productID: {
+                ...item.productID,
+                price:
+                  item.productID.onSale === "yes"
+                    ? parseInt(
+                        (
+                          item.productID.price -
+                          item.productID.price *
+                            (item.productID.priceDrop / 100)
+                        ).toFixed(2)
+                      )
+                    : item.productID.price,
+              },
+            }))
+          : [];
+      setCartItems(updatedData);
+      localStorage.setItem("cartItems", JSON.stringify(updatedData));
     }
   }
 
@@ -143,7 +162,11 @@ export default function CartModal() {
             Checkout
           </button>
           <div className="mt-6 flex justify-center text-center text-sm text-gray-600">
-            <button type="button" className="font-medium text-gray">
+            <button
+              type="button"
+              className="font-medium text-gray"
+              onClick={() => setShowCartModal(false)}
+            >
               Continue Shopping
               <span aria-hidden="true"> &rarr;</span>
             </button>

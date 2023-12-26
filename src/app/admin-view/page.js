@@ -8,6 +8,7 @@ import { PulseLoader } from "react-spinners";
 
 export default function AdminView() {
   const {
+    user,
     allOrdersForAllUsers,
     setAllOrdersForAllUsers,
     pageLevelLoader,

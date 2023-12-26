@@ -87,7 +87,7 @@ export default function Navbar() {
             className="flex items-center cursor-pointer"
           >
             <span className="self-center text-2xl font-semibold whitespace-nowrap">
-              Ecommercery
+              Ecommerce
             </span>
           </div>
           <div className="flex md:order-2 gap-2">
@@ -119,7 +119,7 @@ export default function Navbar() {
                   }
                   onClick={() => router.push("/")}
                 >
-                  Client .View
+                  Client View
                 </button>
               ) : (
                 <button
