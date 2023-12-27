@@ -29,6 +29,8 @@ export default function Account() {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [currentEditedAddressId, setCurrentEditedAddressId] = useState(null);
 
+  const isFormValid = Object.values(addressFormData).every((item) => item !== "");
+
   const router = useRouter();
 
   async function extractAllAddresses() {
@@ -204,8 +206,9 @@ export default function Account() {
                   ))}
                 </div>
                 <button
-                  className="mt-5 inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
+                  className="mt-5 inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide disabled:opacity-50"
                   onClick={handleAddOrUpdateAddress}
+                  disabled={!isFormValid}
                 >
                   {componentLevelLoader && componentLevelLoader.loading ? (
                     <ComponentLevelLoader

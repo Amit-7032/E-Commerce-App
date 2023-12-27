@@ -69,14 +69,16 @@ const initialFormData = {
 };
 
 export default function AdminAddNewProduct() {
-  const [formData, setFormData] = useState(initialFormData);
-
   const {
     componentLevelLoader,
     setComponentLevelLoader,
     currentUpdatedProduct,
     setCurrentUpdatedProduct,
   } = useContext(GlobalContext);
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  const isFormValid = Object.values(formData).every((item) => item !== "");
 
   const router = useRouter();
 
@@ -188,8 +190,9 @@ export default function AdminAddNewProduct() {
             ) : null
           )}
           <button
+            disabled={!isFormValid}
             onClick={handleAddProduct}
-            className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white font-medium uppercase tracking-wide"
+            className="inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white font-medium uppercase tracking-wide disabled:opacity-50"
           >
             {componentLevelLoader && componentLevelLoader.loading ? (
               <ComponentLevelLoader

@@ -3,7 +3,7 @@ export default function TileComponent({ data, selected = [], onClick }) {
     <div className="mt-3 flex flex-wrap items-center gap-1">
       {data.map((dataItem) => (
         <label
-          className={`cursor-pointer ${
+          className={`cursor-pointer rounded-lg py-2 ${
             selected &&
             selected.length &&
             selected.map((item) => item.id).indexOf(dataItem.id) !== -1

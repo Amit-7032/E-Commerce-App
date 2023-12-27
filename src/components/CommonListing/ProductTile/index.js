@@ -8,7 +8,11 @@ export default function ProductTile({ item }) {
     <div onClick={() => router.push(`/product/${item._id}`)}>
       <div className="overflow-hidden aspect-w-1 aspect-h-1 h-52">
         <img
-          src={item.imageUrl}
+          src={
+            item.imageUrl !== ""
+              ? item.imageUrl
+              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKDvbGs5KSuVIll5qLjRALjnTvXletu7aiVQ&usqp=CAU"
+          }
           alt="Product image"
           className="h-full w-full object-cover transition-all duration-300 group-hover:scale-125"
         />
