@@ -55,6 +55,7 @@ export default function Checkout() {
         cartItems &&
         cartItems.length > 0
       ) {
+        setIsOrderProcessing(true);
         const getCheckoutFromData = JSON.parse(
           localStorage.getItem("checkoutFormData")
         );

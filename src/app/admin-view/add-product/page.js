@@ -22,6 +22,7 @@ import {
 } from "firebase/storage";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 
 const app = initializeApp(firebaseConfig);
@@ -77,6 +78,10 @@ export default function AdminAddNewProduct() {
   } = useContext(GlobalContext);
 
   const [formData, setFormData] = useState(initialFormData);
+  const [selectedImage, setSelectedImage] = useState(
+    currentUpdatedProduct ? { url: currentUpdatedProduct?.imageUrl } : null
+  );
+  const [showDropzone, setShowDropzone] = useState(true);
 
   const isFormValid = Object.values(formData).every((item) => item !== "");
 
@@ -88,17 +93,56 @@ export default function AdminAddNewProduct() {
     }
   }, [currentUpdatedProduct]);
 
-  async function handleImage(event) {
-    const extractImageUrl = await helperForUploadingImageToFirebase(
-      event.target.files[0]
-    );
-    if (extractImageUrl !== "") {
-      setFormData({
-        ...formData,
-        imageUrl: extractImageUrl,
-      });
+  // async function handleImage(event) {
+  //   const extractImageUrl = await helperForUploadingImageToFirebase(
+  //     event.target.files[0]
+  //   );
+  //   if (extractImageUrl !== "") {
+  //     setFormData({
+  //       ...formData,
+  //       imageUrl: extractImageUrl,
+  //     });
+  //   }
+  // }
+
+  // drag n drop functionality
+  const onDrop = async (acceptedFiles) => {
+    if (acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
+      const extractImageUrl = await helperForUploadingImageToFirebase(file);
+
+      if (extractImageUrl !== "") {
+        setFormData({
+          ...formData,
+          imageUrl: extractImageUrl,
+        });
+
+        // Set the selected image for preview
+        setSelectedImage({
+          url: URL.createObjectURL(file),
+          file,
+        });
+
+        // Hide the drop zone
+        setShowDropzone(false);
+      }
     }
-  }
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: "image/*",
+    maxFiles: 1,
+  });
+
+  const handleReset = () => {
+    setSelectedImage(null);
+    setShowDropzone(true);
+    setFormData({
+      ...formData,
+      imageUrl: "",
+    });
+  };
 
   function handleTileClick(getCurrentItem) {
     let cpySizes = [...formData.sizes];
@@ -147,12 +191,45 @@ export default function AdminAddNewProduct() {
     <div className="w-full mt-5 mr-0 mb-0 ml-0 relative">
       <div className="flex flex-col items-start justify-start p-10 bg-white shadow-2xl rounded-xl relative">
         <div className="w-full mt-6 mr-0 mb-0 ml-0 space-y-8">
-          <input
+          {/* <input
             accept="image/*"
             max="1000000"
             type="file"
             onChange={handleImage}
-          />
+          /> */}
+          {/* drag n drop functionality */}
+          {selectedImage && (
+            <div className="image-container">
+              <img
+                src={
+                  selectedImage
+                    ? selectedImage.url
+                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKDvbGs5KSuVIll5qLjRALjnTvXletu7aiVQ&usqp=CAU"
+                }
+                alt="Selected"
+                className="image"
+              />
+              <div className="close-icon" onClick={handleReset}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="#fff"
+                >
+                  <path d="M0 0h24v24H0V0z" fill="none" />
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
+                </svg>
+              </div>
+            </div>
+          )}
+
+          {!selectedImage && showDropzone && (
+            <div {...getRootProps()} className="dropzone">
+              <input {...getInputProps()} />
+              <p>Drag 'n' drop an image here, or click to select one</p>
+            </div>
+          )}
           <div>
             <label>Available sizes</label>
             <TileComponent

@@ -38,3 +38,97 @@ body::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
 }
+
+.menu {
+  /* flex: 1; */
+  color: #fff;
+  border: 1px solid;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.5s ease-out;
+}
+
+.menu:hover,
+.menu:focus {
+  background-color: #fff;
+  color: #000000;
+}
+
+.dropzone {
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* .image-container {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 10px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.close-icon {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.close-icon svg {
+  fill: #fff;
+  width: 20px;
+  height: 20px;
+} */
+
+.image-container {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 10px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.close-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  background-color: black;
+  padding: 5px;
+  border-radius: 0 0 0 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.close-icon svg {
+  fill: #fff;
+  width: 15px;
+  height: 15px;
+}
+
+@media screen and (min-width: 768px) {
+  .showNavItems {
+    display: none;
+  }
+}
+@media screen and (max-width: 767px) {
+  .notShowNavItems {
+    display: none;
+  }
+}

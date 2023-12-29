@@ -29,7 +29,9 @@ export default function Account() {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [currentEditedAddressId, setCurrentEditedAddressId] = useState(null);
 
-  const isFormValid = Object.values(addressFormData).every((item) => item !== "");
+  const isFormValid = Object.values(addressFormData).every(
+    (item) => item !== ""
+  );
 
   const router = useRouter();
 
