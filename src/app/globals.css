@@ -132,3 +132,16 @@ body::-webkit-scrollbar-thumb {
     display: none;
   }
 }
+
+.pagination-arrow {
+  color: #2874f0;
+  /* font-size: 14px; */
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: 32px;
+  /* background-color: #333; */
+}
+
+.pagination-arrow:hover {
+  /* background-color: #555; */
+}

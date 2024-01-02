@@ -1,35 +1,77 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import ProductButton from "./ProductButtons";
 import ProductTile from "./ProductTile";
-import { useEffect } from "react";
 import Notification from "../Notification";
 
 export default function CommonListing({ data }) {
   const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+  const totalPages = Math.ceil(data.length / itemsPerPage);
 
-  useEffect(() => {
-    router.refresh();
-  }, []);
-
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    router.push(`?page=${newPage}`, undefined, { flag: true });
+  };
   return (
     <section className="bg-white py-12 sm:py-16">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-        <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-          {data && data.length
-            ? data.map((item) => (
-                <article
-                  className="relative flex flex-col overflow-hidden border cursor-pointer"
-                  key={item.id}
-                >
-                  <ProductTile item={item} />
-                  <ProductButton item={item} />
-                </article>
-              ))
-            : null}
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-8">
+          {data
+            .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+            .map((item) => (
+              <article
+                key={item.id}
+                className="relative flex flex-col overflow-hidden border cursor-pointer transition duration-300 transform hover:scale-105"
+              >
+                <ProductTile item={item} />
+                <ProductButton item={item} />
+              </article>
+            ))}
         </div>
       </div>
+      {totalPages > 1 && (
+        <div className="mt-4 flex justify-center items-center space-x-3 w-full bg-white fixed bottom-0 p-3">
+          {currentPage > 1 && (
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              className="pagination-arrow"
+            >
+              {/* {"<"} */}
+              Previous
+            </button>
+          )}
+
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={`px-3 py-2 text-sm font-medium border rounded-full ${
+                currentPage === index + 1
+                  ? "text-white bg-indigo-600 border-indigo-600"
+                  : "text-indigo-600 border-gray-300 hover:bg-indigo-100"
+              } focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 transition duration-300`}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          {currentPage < totalPages && (
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              className="pagination-arrow"
+            >
+              {/* {">"} */}
+              Next
+            </button>
+          )}
+        </div>
+      )}
       <Notification />
     </section>
   );
