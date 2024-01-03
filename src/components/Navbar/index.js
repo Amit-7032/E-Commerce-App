@@ -7,6 +7,7 @@ import CommonModal from "../CommonModal";
 import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
 import CartModal from "../CartModal";
+import Image from "next/image";
 
 function NavItems({ isModalView = false, isAdminView, router }) {
   return (
@@ -86,8 +87,12 @@ export default function Navbar() {
             onClick={() => router.push("/")}
             className="flex items-center cursor-pointer"
           >
-            <span className="self-center text-2xl font-semibold whitespace-nowrap">
-              Ecommerce
+            <Image src='/logo.svg' width={35} height={35}/>
+            <span className="self-center text-2xl font-semibold whitespace-nowrap ml-2">
+              E
+            </span>
+            <span className="self-center text-2xl font-semibold whitespace-nowrap uppercase text-slate-400">
+              Commerce
             </span>
           </div>
           <div className="flex md:order-2 gap-2">

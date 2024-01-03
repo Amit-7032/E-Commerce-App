@@ -133,15 +133,53 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
+/* Pagination Arrow And PREV & NEXT Button*/
 .pagination-arrow {
   color: #2874f0;
-  /* font-size: 14px; */
   font-weight: 500;
   text-transform: uppercase;
   line-height: 32px;
-  /* background-color: #333; */
 }
 
-.pagination-arrow:hover {
-  /* background-color: #555; */
+/* Pagination Container */
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* Pagination Button */
+.pagination-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Active Pagination Button */
+.pagination-button.active {
+  color: #fff;
+  background-color: #4a90e2;
+  border: 2px solid #4a90e2;
+}
+
+/* Hover State for Pagination Button */
+.pagination-button:hover:not(.active) {
+  background-color: #e2e8f0;
+}
+
+/* Disabled Pagination Button */
+.pagination-button.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Arrow Icons */
+.pagination-arrow {
+  font-size: 16px;
+  margin: 0 8px;
 }

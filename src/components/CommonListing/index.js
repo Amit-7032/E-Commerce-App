@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProductButton from "./ProductButtons";
 import ProductTile from "./ProductTile";
 import Notification from "../Notification";
@@ -12,9 +12,20 @@ export default function CommonListing({ data }) {
   const itemsPerPage = 8;
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get("page");
+    if (pageParam) {
+      setCurrentPage(Number(pageParam));
+    }
+  }, [router.asPath]);
+
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    router.push(`?page=${newPage}`, undefined, { flag: true });
+    router.push(`?page=${newPage}`, undefined, {
+      shallow: true,
+      state: { page: newPage },
+    });
   };
   return (
     <section className="bg-white py-12 sm:py-16">
@@ -35,41 +46,35 @@ export default function CommonListing({ data }) {
       </div>
       {totalPages > 1 && (
         <div className="mt-4 flex justify-center items-center space-x-3 w-full bg-white fixed bottom-0 p-3">
-          {currentPage > 1 && (
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              className="pagination-arrow"
-            >
-              {/* {"<"} */}
-              Previous
-            </button>
-          )}
+          <button
+            disabled={currentPage > 1 ? false : true}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            className={`pagination-button pagination-arrow ${currentPage === 1 ? 'disabled' : ''}`}
+          >
+            {/* {"<"} */}
+            Previous
+          </button>
 
           {[...Array(totalPages)].map((_, index) => (
             <button
               key={index}
               onClick={() => handlePageChange(index + 1)}
-              className={`px-3 py-2 text-sm font-medium border rounded-full ${
-                currentPage === index + 1
-                  ? "text-white bg-indigo-600 border-indigo-600"
-                  : "text-indigo-600 border-gray-300 hover:bg-indigo-100"
-              } focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 transition duration-300`}
+              className={`pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
             >
               {index + 1}
             </button>
           ))}
 
-          {currentPage < totalPages && (
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              className="pagination-arrow"
-            >
-              {/* {">"} */}
-              Next
-            </button>
-          )}
+          <button
+            disabled={currentPage < totalPages ? false : true}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            className={`pagination-button pagination-arrow ${currentPage === totalPages ? 'disabled' : ''}`}
+          >
+            Next
+            {/* {">"} */}
+          </button>
         </div>
       )}
       <Notification />
