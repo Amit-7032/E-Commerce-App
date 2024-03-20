@@ -1,6 +1,7 @@
 "use client";
 
 import ComponentLevelLoader from "@/components/Loader/componentlevel";
+import NoOrdersFound from "@/components/NoOrdersFound";
 import { GlobalContext } from "@/context";
 import { getAllOrdersForAllUsers, updateStatusOfOrder } from "@/services/order";
 import { useContext, useEffect } from "react";
@@ -66,7 +67,7 @@ export default function AdminView() {
   }
 
   return (
-    <section>
+    <section className="py-12 sm:py-12">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div>
           <div className="px-4 py-6 sm:px-8 sm:py-10">
@@ -154,7 +155,9 @@ export default function AdminView() {
                     </li>
                   ))}
                 </ul>
-              ) : null}
+              ) : (
+                <NoOrdersFound />
+              )}
             </div>
           </div>
         </div>

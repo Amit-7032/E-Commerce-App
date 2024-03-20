@@ -140,7 +140,7 @@ export default function CommonDetails({ item }) {
           </div>
         </div>
       </div>
-      <Notification/>
+      <Notification />
     </section>
   );
 }

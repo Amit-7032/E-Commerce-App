@@ -2,7 +2,7 @@
 
 import { GlobalContext } from "@/context";
 import { adminNavOption, navOptions } from "@/utils";
-import { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import CommonModal from "../CommonModal";
 import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
@@ -47,6 +47,8 @@ function NavItems({ isModalView = false, isAdminView, router }) {
 }
 
 export default function Navbar() {
+  const [cartItemCount, setCartItemCount] = useState(null);
+
   const {
     showNavModal,
     setShowNavModal,
@@ -59,6 +61,13 @@ export default function Navbar() {
     useContext(GlobalContext);
   const router = useRouter();
   const pathName = usePathname();
+
+  useEffect(() => {
+    const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
+    if (storedCartItems && Array.isArray(storedCartItems)) {
+      setCartItemCount(storedCartItems.length);
+    }
+  }, []);
 
   useEffect(() => {
     if (
@@ -87,7 +96,7 @@ export default function Navbar() {
             onClick={() => router.push("/")}
             className="flex items-center cursor-pointer"
           >
-            <Image src='/logo.svg' width={35} height={35}/>
+            <Image src="/logo.svg" width={35} height={35} />
             <span className="self-center text-2xl font-semibold whitespace-nowrap ml-2">
               E
             </span>
@@ -95,66 +104,96 @@ export default function Navbar() {
               Commerce
             </span>
           </div>
-          <div className="flex md:order-2 gap-2">
+          <div className="flex md:order-2 gap-3">
             {!isAdminView && isAuthUser ? (
               <Fragment>
-                <button
-                  className={
-                    "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
-                  }
+                <div
+                  className="tooltip-container"
                   onClick={() => router.push("/account")}
                 >
-                  Account
-                </button>
-                <button
-                  className={
-                    "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
-                  }
+                  <Image src="/account.svg" width={45} height={35} />
+                  <span
+                    className={
+                      "text-xs font-medium uppercase tracking-wide text-black"
+                    }
+                  >
+                    Account
+                  </span>
+                </div>
+                <div
+                  className="tooltip-container"
                   onClick={() => setShowCartModal(true)}
                 >
-                  Cart
-                </button>
+                  <Image src="/shopping-cart.svg" width={45} height={35} />
+                  {cartItemCount > 0 && (
+                    <span className="cart-count">{cartItemCount}</span>
+                  )}
+                  <span
+                    className={
+                      "text-xs font-medium uppercase tracking-wide text-black"
+                    }
+                  >
+                    Cart
+                  </span>
+                </div>
               </Fragment>
             ) : null}
             {user?.role === "admin" ? (
               isAdminView ? (
-                <button
-                  className={
-                    "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
-                  }
+                <div
+                  className="tooltip-container"
                   onClick={() => router.push("/")}
                 >
-                  Client View
-                </button>
+                  <Image src="/client.svg" width={45} height={35} />
+                  <span
+                    className={
+                      "text-xs font-medium uppercase tracking-wide text-black"
+                    }
+                  >
+                    Client View
+                  </span>
+                </div>
               ) : (
-                <button
-                  className={
-                    "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
-                  }
+                <div
+                  className="tooltip-container"
                   onClick={() => router.push("/admin-view")}
                 >
-                  Admin View
-                </button>
+                  <Image src="/admin.svg" width={45} height={35} />
+                  <span
+                    className={
+                      "text-xs font-medium uppercase tracking-wide text-black"
+                    }
+                  >
+                    Admin View
+                  </span>
+                </div>
               )
             ) : null}
             {isAuthUser ? (
-              <button
-                className={
-                  "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
-                }
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+              <div className="tooltip-container" onClick={handleLogout}>
+                <Image src="/logout.svg" width={45} height={35} />
+                <span
+                  className={
+                    "text-xs font-medium uppercase tracking-wide text-black"
+                  }
+                >
+                  Logout
+                </span>
+              </div>
             ) : (
-              <button
-                className={
-                  "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
-                }
+              <div
+                className="tooltip-container"
                 onClick={() => router.push("/login")}
               >
-                Login
-              </button>
+                <Image src="/login.svg" width={45} height={35} />
+                <span
+                  className={
+                    "text-xs font-medium uppercase tracking-wide text-black"
+                  }
+                >
+                  Login
+                </span>
+              </div>
             )}
             <button
               data-collapse-toggle="navbar-sticky"
@@ -195,7 +234,7 @@ export default function Navbar() {
         show={showNavModal}
         setShow={setShowNavModal}
       />
-      {showCartModal && <CartModal />}
+      {showCartModal && <CartModal setCartItemCount={setCartItemCount} />}
     </>
   );
 }

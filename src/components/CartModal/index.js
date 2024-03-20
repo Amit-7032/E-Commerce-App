@@ -7,8 +7,9 @@ import { deleteFromCart, getAllCartItems } from "@/services/cart";
 import { toast } from "react-toastify";
 import ComponentLevelLoader from "../Loader/componentlevel";
 import { useRouter } from "next/navigation";
+import EmptyCart from "../EmptyCart";
 
-export default function CartModal() {
+export default function CartModal({ setCartItemCount }) {
   const {
     showCartModal,
     setShowCartModal,
@@ -20,6 +21,11 @@ export default function CartModal() {
   } = useContext(GlobalContext);
 
   const router = useRouter();
+
+  useEffect(() => {
+    setCartItemCount(cartItems.length);
+    localStorage.setItem("cartItemCount", cartItems.length);
+  }, [cartItems, setCartItemCount]);
 
   async function extractAllCartItems() {
     const res = await getAllCartItems(user?._id);
@@ -136,7 +142,9 @@ export default function CartModal() {
               </li>
             ))}
           </ul>
-        ) : null
+        ) : (
+          <EmptyCart setShowCartModal={setShowCartModal} />
+        )
       }
       buttonComponent={
         <Fragment>

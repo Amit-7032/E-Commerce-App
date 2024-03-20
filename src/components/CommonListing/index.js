@@ -28,7 +28,7 @@ export default function CommonListing({ data }) {
     });
   };
   return (
-    <section className="bg-white py-12 sm:py-16">
+    <section className="bg-white py-12 sm:py-12">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-8">
           {data
@@ -49,7 +49,9 @@ export default function CommonListing({ data }) {
           <button
             disabled={currentPage > 1 ? false : true}
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            className={`pagination-button pagination-arrow ${currentPage === 1 ? 'disabled' : ''}`}
+            className={`pagination-button pagination-arrow ${
+              currentPage === 1 ? "disabled" : ""
+            }`}
           >
             {/* {"<"} */}
             Previous
@@ -59,7 +61,9 @@ export default function CommonListing({ data }) {
             <button
               key={index}
               onClick={() => handlePageChange(index + 1)}
-              className={`pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
+              className={`pagination-button ${
+                currentPage === index + 1 ? "active" : ""
+              }`}
             >
               {index + 1}
             </button>
@@ -70,7 +74,9 @@ export default function CommonListing({ data }) {
             onClick={() =>
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
-            className={`pagination-button pagination-arrow ${currentPage === totalPages ? 'disabled' : ''}`}
+            className={`pagination-button pagination-arrow ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
           >
             Next
             {/* {">"} */}
