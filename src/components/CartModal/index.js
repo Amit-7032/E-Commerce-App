@@ -24,7 +24,7 @@ export default function CartModal({ setCartItemCount }) {
 
   useEffect(() => {
     setCartItemCount(cartItems.length);
-    localStorage.setItem("cartItemCount", cartItems.length);
+    // localStorage.setItem("cartItemCount", cartItems.length);
   }, [cartItems, setCartItemCount]);
 
   async function extractAllCartItems() {
@@ -111,7 +111,7 @@ export default function CartModal({ setCartItemCount }) {
                       </h3>
                     </div>
                     <p className="mt-1 text-sm text-gray-600">
-                      $
+                      ₹
                       {cartItem &&
                         cartItem.productID &&
                         cartItem.productID.price}

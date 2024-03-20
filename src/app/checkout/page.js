@@ -127,7 +127,7 @@ export default function Checkout() {
 
     const createLineItems = cartItems.map((item) => ({
       price_data: {
-        currency: "usd",
+        currency: "inr",
         product_data: {
           images: [item.productID.imageUrl],
           name: item.productID.name,
@@ -136,6 +136,16 @@ export default function Checkout() {
       },
       quantity: 1,
     }));
+
+    // const shippingAddress = {
+    //   name: checkoutFormData.shippingAddress.fullName,
+    //   address: {
+    //     line1: checkoutFormData.shippingAddress.address,
+    //     city: checkoutFormData.shippingAddress.city,
+    //     country: checkoutFormData.shippingAddress.country,
+    //     postal_code: checkoutFormData.shippingAddress.postalCode,
+    //   },
+    // };
 
     const res = await callStripeSession(createLineItems);
     setIsOrderProcessing(true);
@@ -208,13 +218,23 @@ export default function Checkout() {
                       {item && item.productID && item.productID.name}
                     </span>
                     <span className="font-semibold">
-                      {item && item.productID && item.productID.price}
+                      ₹{item && item.productID && item.productID.price}
                     </span>
                   </div>
                 </div>
               ))
             ) : (
-              <div>Your cart is empty</div>
+              <>
+                <div className="checkout-container">
+                  <img
+                    src="/shopping-7.png"
+                    alt="Shopping Cart"
+                    className="image"
+                  />
+                  <h1 className="heading">Your Cart Is Empty!</h1>
+                  <p className="text">There are no items in your cart.</p>
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -259,7 +279,7 @@ export default function Checkout() {
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">Subtotal</p>
               <p className="text-lg font-bold text-gray-900">
-                $
+                ₹
                 {cartItems && cartItems.length
                   ? cartItems.reduce(
                       (total, item) => item.productID.price + total,
@@ -275,7 +295,7 @@ export default function Checkout() {
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">Total</p>
               <p className="text-lg font-bold text-gray-900">
-                $
+                ₹
                 {cartItems && cartItems.length
                   ? cartItems.reduce(
                       (total, item) => item.productID.price + total,

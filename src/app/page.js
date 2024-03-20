@@ -95,7 +95,7 @@ export default function Home() {
                               {productItem.name}
                             </h3>
                             <p className="mt-1 text-sm text-gray-800">
-                              ${productItem.price}{" "}
+                              ₹{productItem.price}{" "}
                               <span className="text-red-700">{`(-${productItem.priceDrop}%) Off`}</span>
                             </p>
                           </div>

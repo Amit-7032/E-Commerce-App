@@ -248,3 +248,35 @@ body::-webkit-scrollbar-thumb {
 .empty-cart-button:hover {
   background-color: #4338ca;
 }
+
+/* checkout empty cart and no order css */
+.checkout-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  height: 100%;
+}
+
+.checkout-container .image {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  margin-bottom: 20px;
+  border: none;
+  box-shadow: none;
+  display: block;
+  margin: 0 auto;
+}
+
+.checkout-container .heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0px 10px 0px;
+}
+
+.checkout-container .text {
+  font-size: 18px;
+  color: #555;
+}
