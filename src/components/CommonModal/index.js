@@ -47,7 +47,7 @@ const CommonModal = ({
                             <Dialog.Title>{modalTitle}</Dialog.Title>
                           </div>
                         ) : null}
-                        <div className="mt-20">{mainContent}</div>
+                        <div className="mt-20 flex">{mainContent}</div>
                       </div>
                       {showButtons ? (
                         <div className="border-t border-gray-300 px-4 py-6 sm:px-6 ">

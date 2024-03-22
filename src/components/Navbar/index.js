@@ -18,7 +18,7 @@ function NavItems({ isModalView = false, isAdminView, router }) {
       id="nav-items"
     >
       <ul
-        className={`flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-white ${
+        className={`flex flex-col md:p-0 font-medium rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-white ${
           isModalView ? "border-none" : "border border-grey-100"
         }`}
       >
@@ -46,6 +46,91 @@ function NavItems({ isModalView = false, isAdminView, router }) {
   );
 }
 
+function AdminAndClient({
+  isModalView = false,
+  isAdminView,
+  router,
+  user,
+  isAuthUser,
+  cartItemCount,
+  setShowCartModal,
+}) {
+  return (
+    <>
+      <div
+        className={`flex w-full md:flex md:w-auto ${
+          isModalView ? "items-start flex-col" : "hidden items-center gap-3"
+        }`}
+      >
+        {!isAdminView && isAuthUser ? (
+          <Fragment>
+            <div
+              className={"tooltip-container"}
+              onClick={() => router.push("/account")}
+            >
+              <Image src="/account.svg" width={45} height={35} />
+              <span
+                className={
+                  "text-xs font-medium uppercase tracking-wide text-black"
+                }
+              >
+                Account
+              </span>
+            </div>
+            <div
+              className={"tooltip-container"}
+              onClick={() => setShowCartModal(true)}
+            >
+              <Image src="/shopping-cart.svg" width={45} height={35} />
+              {cartItemCount > 0 && (
+                <span className="cart-count">{cartItemCount}</span>
+              )}
+              <span
+                className={
+                  "text-xs font-medium uppercase tracking-wide text-black"
+                }
+              >
+                Cart
+              </span>
+            </div>
+          </Fragment>
+        ) : null}
+        {user?.role === "admin" ? (
+          isAdminView ? (
+            <div
+              className={"tooltip-container"}
+              onClick={() => router.push("/")}
+            >
+              <Image src="/client.svg" width={45} height={35} />
+              <span
+                className={
+                  "text-xs font-medium uppercase tracking-wide text-black"
+                }
+              >
+                Client View
+              </span>
+            </div>
+          ) : (
+            <div
+              className={"tooltip-container"}
+              onClick={() => router.push("/admin-view")}
+            >
+              <Image src="/admin.svg" width={45} height={35} />
+              <span
+                className={
+                  "text-xs font-medium uppercase tracking-wide text-black"
+                }
+              >
+                Admin View
+              </span>
+            </div>
+          )
+        ) : null}
+      </div>
+    </>
+  );
+}
+
 export default function Navbar() {
   const [cartItemCount, setCartItemCount] = useState(null);
 
@@ -56,11 +141,14 @@ export default function Navbar() {
     setCurrentUpdatedProduct,
     showCartModal,
     setShowCartModal,
+    user,
+    setUser,
+    isAuthUser,
+    setIsAuthUser,
   } = useContext(GlobalContext);
-  const { user, setUser, isAuthUser, setIsAuthUser } =
-    useContext(GlobalContext);
   const router = useRouter();
   const pathName = usePathname();
+  const isAdminView = pathName.includes("admin-view");
 
   useEffect(() => {
     const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
@@ -86,8 +174,6 @@ export default function Navbar() {
     router.push("/");
   }
 
-  const isAdminView = pathName.includes("admin-view");
-
   return (
     <>
       <nav className="bg-white fixed w-full z-20 top-0 left-0 border-b border-gray-200">
@@ -105,70 +191,14 @@ export default function Navbar() {
             </span>
           </div>
           <div className="flex md:order-2 gap-3">
-            {!isAdminView && isAuthUser ? (
-              <Fragment>
-                <div
-                  className="tooltip-container"
-                  onClick={() => router.push("/account")}
-                >
-                  <Image src="/account.svg" width={45} height={35} />
-                  <span
-                    className={
-                      "text-xs font-medium uppercase tracking-wide text-black"
-                    }
-                  >
-                    Account
-                  </span>
-                </div>
-                <div
-                  className="tooltip-container"
-                  onClick={() => setShowCartModal(true)}
-                >
-                  <Image src="/shopping-cart.svg" width={45} height={35} />
-                  {cartItemCount > 0 && (
-                    <span className="cart-count">{cartItemCount}</span>
-                  )}
-                  <span
-                    className={
-                      "text-xs font-medium uppercase tracking-wide text-black"
-                    }
-                  >
-                    Cart
-                  </span>
-                </div>
-              </Fragment>
-            ) : null}
-            {user?.role === "admin" ? (
-              isAdminView ? (
-                <div
-                  className="tooltip-container"
-                  onClick={() => router.push("/")}
-                >
-                  <Image src="/client.svg" width={45} height={35} />
-                  <span
-                    className={
-                      "text-xs font-medium uppercase tracking-wide text-black"
-                    }
-                  >
-                    Client View
-                  </span>
-                </div>
-              ) : (
-                <div
-                  className="tooltip-container"
-                  onClick={() => router.push("/admin-view")}
-                >
-                  <Image src="/admin.svg" width={45} height={35} />
-                  <span
-                    className={
-                      "text-xs font-medium uppercase tracking-wide text-black"
-                    }
-                  >
-                    Admin View
-                  </span>
-                </div>
-              )
-            ) : null}
+            <AdminAndClient
+              isAdminView={isAdminView}
+              router={router}
+              user={user}
+              isAuthUser={isAuthUser}
+              cartItemCount={cartItemCount}
+              setShowCartModal={setShowCartModal}
+            />
             {isAuthUser ? (
               <div className="tooltip-container" onClick={handleLogout}>
                 <Image src="/logout.svg" width={45} height={35} />
@@ -225,11 +255,22 @@ export default function Navbar() {
       <CommonModal
         showModalTitle={false}
         mainContent={
-          <NavItems
-            isModalView={true}
-            isAdminView={isAdminView}
-            router={router}
-          />
+          <>
+            <NavItems
+              isModalView={true}
+              isAdminView={isAdminView}
+              router={router}
+            />
+            <AdminAndClient
+              isModalView={true}
+              isAdminView={isAdminView}
+              router={router}
+              user={user}
+              isAuthUser={isAuthUser}
+              cartItemCount={cartItemCount}
+              setShowCartModal={setShowCartModal}
+            />
+          </>
         }
         show={showNavModal}
         setShow={setShowNavModal}
