@@ -182,15 +182,21 @@ export default function Navbar() {
             onClick={() => router.push("/")}
             className="flex items-center cursor-pointer"
           >
-            <Image src="/logo.svg" width={35} height={35} />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap ml-2">
+            <Image
+              src="/ecom-logo.svg"
+              width={35}
+              height={35}
+              class="w-8 h-8 md:w-10 md:h-10"
+            />
+            {/* <Image src="/logo.svg" width={35} height={35} /> */}
+            <span className="text-lg sm:text-xl md:text-2xl font-semibold whitespace-nowrap ml-0 md:ml-1">
               E
             </span>
-            <span className="self-center text-2xl font-semibold whitespace-nowrap uppercase text-slate-400">
+            <span className="text-lg sm:text-xl md:text-2xl font-semibold whitespace-nowrap uppercase text-slate-400">
               Commerce
             </span>
           </div>
-          <div className="flex md:order-2 gap-3">
+          <div className="flex md:order-2">
             <AdminAndClient
               isAdminView={isAdminView}
               router={router}
