@@ -153,7 +153,7 @@ export default function Navbar() {
   useEffect(() => {
     const storedCartItems = JSON.parse(localStorage.getItem("cartItems"));
     if (storedCartItems && Array.isArray(storedCartItems)) {
-      setCartItemCount(storedCartItems.length);
+      setCartItemCount(storedCartItems?.length);
     }
   }, []);
 

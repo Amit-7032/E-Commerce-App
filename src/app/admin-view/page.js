@@ -25,7 +25,7 @@ export default function AdminView() {
     if (res.success) {
       setPageLevelLoader(false);
       setAllOrdersForAllUsers(
-        res.data && res.data.length
+        res.data && res.data?.length
           ? res.data.filter((item) => item.user._id !== user._id)
           : []
       );
@@ -72,7 +72,7 @@ export default function AdminView() {
         <div>
           <div className="px-4 py-6 sm:px-8 sm:py-10">
             <div className="flow-root">
-              {allOrdersForAllUsers && allOrdersForAllUsers.length ? (
+              {allOrdersForAllUsers && allOrdersForAllUsers?.length ? (
                 <ul className="flex flex-col gap-4">
                   {allOrdersForAllUsers.map((item) => (
                     <li

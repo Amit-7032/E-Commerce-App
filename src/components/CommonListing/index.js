@@ -10,7 +10,7 @@ export default function CommonListing({ data }) {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(data?.length / itemsPerPage);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -32,7 +32,7 @@ export default function CommonListing({ data }) {
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 lg:mt-8">
           {data
-            .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+            ?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
             .map((item) => (
               <article
                 key={item.id}

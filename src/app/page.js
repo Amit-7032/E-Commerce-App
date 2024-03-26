@@ -71,7 +71,7 @@ export default function Home() {
             </div>
             <div className="lg:col-span-2 lg:py-8">
               <ul className="grid grid-cols-2 gap-4">
-                {products && products.length
+                {products && products?.length
                   ? products
                       .filter((item) => item.onSale === "yes")
                       .splice(0, 2)

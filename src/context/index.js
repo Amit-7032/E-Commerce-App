@@ -74,7 +74,7 @@ export default function GlobalState({ children }) {
       !pathName.includes("product") &&
       pathName !== "/" &&
       user &&
-      Object.keys(user).length === 0 &&
+      Object.keys(user)?.length === 0 &&
       protectedRoutes.includes(pathName) > -1
     ) {
       router.push("/login");
@@ -85,7 +85,7 @@ export default function GlobalState({ children }) {
     if (
       user !== null &&
       user &&
-      Object.keys(user).length > 0 &&
+      Object.keys(user)?.length > 0 &&
       user?.role !== "admin" &&
       protectedAdminRoutes.indexOf(pathName) > -1
     ) {

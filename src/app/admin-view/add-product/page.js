@@ -107,7 +107,7 @@ export default function AdminAddNewProduct() {
 
   // drag n drop functionality
   const onDrop = async (acceptedFiles) => {
-    if (acceptedFiles.length > 0) {
+    if (acceptedFiles?.length > 0) {
       const file = acceptedFiles[0];
       const extractImageUrl = await helperForUploadingImageToFirebase(file);
 
@@ -151,7 +151,7 @@ export default function AdminAddNewProduct() {
     if (index === -1) {
       cpySizes.push(getCurrentItem);
     } else {
-      cpySizes = cpySizes.filter((item) => item.id !== getCurrentItem.id);
+      cpySizes = cpySizes?.filter((item) => item?.id !== getCurrentItem?.id);
     }
     setFormData({
       ...formData,

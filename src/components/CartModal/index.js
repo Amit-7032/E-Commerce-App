@@ -23,8 +23,8 @@ export default function CartModal({ setCartItemCount }) {
   const router = useRouter();
 
   useEffect(() => {
-    setCartItemCount(cartItems.length);
-    // localStorage.setItem("cartItemCount", cartItems.length);
+    setCartItemCount(cartItems?.length);
+    // localStorage.setItem("cartItemCount", cartItems?.length);
   }, [cartItems, setCartItemCount]);
 
   async function extractAllCartItems() {
@@ -32,7 +32,7 @@ export default function CartModal({ setCartItemCount }) {
 
     if (res.success) {
       const updatedData =
-        res.data && res.data.length
+        res.data && res.data?.length
           ? res.data.map((item) => ({
               ...item,
               productID: {
@@ -84,7 +84,7 @@ export default function CartModal({ setCartItemCount }) {
       show={showCartModal}
       setShow={setShowCartModal}
       mainContent={
-        cartItems && cartItems.length ? (
+        cartItems && cartItems?.length ? (
           <ul role="list" className="-my-6 divide-y divide-gray-300">
             {cartItems.map((cartItem) => (
               <li key={cartItem.id} className="flex py-6">
@@ -159,7 +159,7 @@ export default function CartModal({ setCartItemCount }) {
             Go To Cart
           </button>
           <button
-            disabled={cartItems && cartItems.length === 0}
+            disabled={cartItems && cartItems?.length === 0}
             type="button"
             className="mt-1.5 w-full inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide disabled:opacity-50"
             onClick={() => {

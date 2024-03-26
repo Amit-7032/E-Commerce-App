@@ -141,7 +141,7 @@ export default function Account() {
             <div className="mt-6">
               <h1 className="font-bold text-lg">Your Addresses :</h1>
               <div className="mt-4 flex flex-col gap-4">
-                {addresses && addresses.length ? (
+                {addresses && addresses?.length ? (
                   addresses.map((item) => (
                     <div className="border p-6" key={item._id}>
                       <p>Name: {item.fullName}</p>

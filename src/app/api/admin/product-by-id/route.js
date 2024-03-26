@@ -20,7 +20,7 @@ export async function GET(req) {
 
     const getData = await Product.find({ _id: productId });
 
-    if (getData && getData.length) {
+    if (getData && getData?.length) {
       return NextResponse.json({
         success: true,
         data: getData[0],

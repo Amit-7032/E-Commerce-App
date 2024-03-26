@@ -24,7 +24,7 @@ export default function Cart() {
 
     if (res.success) {
       const updatedData =
-        res.data && res.data.length
+        res.data && res.data?.length
           ? res.data.map((item) => ({
               ...item,
               productID: {

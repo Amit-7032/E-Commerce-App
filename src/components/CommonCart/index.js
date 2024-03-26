@@ -16,7 +16,7 @@ export default function CommonCart({
           <div className="bg-white shadow">
             <div className="px-4 py-6 sm:px-8 sm:py-10">
               <div className="flow-root">
-                {cartItems && cartItems.length ? (
+                {cartItems && cartItems?.length ? (
                   <ul className="my-8">
                     {cartItems.map((cartItem) => (
                       <li
@@ -87,7 +87,7 @@ export default function CommonCart({
                   <p className="text-sm text-gray-400">Subtotal</p>
                   <p className="text-lg text-black font-semibold">
                     ₹
-                    {cartItems && cartItems.length
+                    {cartItems && cartItems?.length
                       ? cartItems.reduce(
                           (total, item) => item.productID.price + total,
                           0
@@ -103,7 +103,7 @@ export default function CommonCart({
                   <p className="text-sm text-gray-400">Total</p>
                   <p className="text-lg text-black font-semibold">
                     ₹
-                    {cartItems && cartItems.length
+                    {cartItems && cartItems?.length
                       ? cartItems.reduce(
                           (total, item) => item.productID.price + total,
                           0
@@ -113,7 +113,7 @@ export default function CommonCart({
                 </div>
                 <div className="mt-5 text-center">
                   <button
-                    disabled={cartItems && cartItems.length === 0}
+                    disabled={cartItems && cartItems?.length === 0}
                     className="group inline-flex w-full items-center justify-center bg-black px-6 py-4 text-lg text-white font-medium uppercase tracking-wide disabled:opacity-50"
                     onClick={() => {
                       router.push("/checkout");

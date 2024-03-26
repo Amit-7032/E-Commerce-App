@@ -53,7 +53,7 @@ export default function Checkout() {
         isStripe &&
         params.get("status") === "success" &&
         cartItems &&
-        cartItems.length > 0
+        cartItems?.length > 0
       ) {
         setIsOrderProcessing(true);
         const getCheckoutFromData = JSON.parse(
@@ -202,7 +202,7 @@ export default function Checkout() {
         <div className="px-4 pt-8">
           <p className="font-medium text-xl">Cart Summary</p>
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-5">
-            {cartItems && cartItems.length ? (
+            {cartItems && cartItems?.length ? (
               cartItems.map((item) => (
                 <div
                   className="flex flex-col rounded-lg bg-white sm:flex-row"
@@ -244,7 +244,7 @@ export default function Checkout() {
             Complete your order by selecting address below
           </p>
           <div className="w-full mt-6 mr-0 mb-0 ml-0 space-y-6">
-            {addresses && addresses.length ? (
+            {addresses && addresses?.length ? (
               addresses.map((item) => (
                 <div
                   onClick={() => handleSelectedAddress(item)}
@@ -280,7 +280,7 @@ export default function Checkout() {
               <p className="text-sm font-medium text-gray-900">Subtotal</p>
               <p className="text-lg font-bold text-gray-900">
                 ₹
-                {cartItems && cartItems.length
+                {cartItems && cartItems?.length
                   ? cartItems.reduce(
                       (total, item) => item.productID.price + total,
                       0
@@ -296,7 +296,7 @@ export default function Checkout() {
               <p className="text-sm font-medium text-gray-900">Total</p>
               <p className="text-lg font-bold text-gray-900">
                 ₹
-                {cartItems && cartItems.length
+                {cartItems && cartItems?.length
                   ? cartItems.reduce(
                       (total, item) => item.productID.price + total,
                       0
@@ -307,8 +307,8 @@ export default function Checkout() {
             <div className="pb-10">
               <button
                 disabled={
-                  (cartItems && cartItems.length === 0) ||
-                  Object.keys(checkoutFormData.shippingAddress).length === 0
+                  (cartItems && cartItems?.length === 0) ||
+                  Object.keys(checkoutFormData.shippingAddress)?.length === 0
                 }
                 className="disabled:opacity-50 mt-5 mr-5 w-full inline-block bg-black text-white px-5 py-3 text-xs font-medium uppercase tracking-wide"
                 onClick={handleCheckout}

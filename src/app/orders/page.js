@@ -63,7 +63,7 @@ export default function Orders() {
           <div>
             <div className="px-4 py-6 sm:px-8 sm:py-10">
               <div className="flow-root">
-                {allOrdersForUser && allOrdersForUser.length ? (
+                {allOrdersForUser && allOrdersForUser?.length ? (
                   <ul className="flex flex-col gap-4">
                     {allOrdersForUser.map((item) => (
                       <li
